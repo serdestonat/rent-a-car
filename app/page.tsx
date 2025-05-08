@@ -20,16 +20,16 @@ import { useState } from "react";
 export function NavbarDemo() {
   const navItems = [
     {
-      name: "Features",
-      link: "#features",
+      name: "Araçlarımız",
+      link: "/cars",
     },
     {
-      name: "Pricing",
-      link: "#pricing",
+      name: "Karşılaştır",
+      link: "/compare",
     },
     {
-      name: "Contact",
-      link: "#contact",
+      name: "Bize Ulaşın",
+      link: "/about",
     },
   ];
 
@@ -43,8 +43,8 @@ export function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary">Login</NavbarButton>
-            <NavbarButton variant="primary">Book a call</NavbarButton>
+            {/* <NavbarButton variant="secondary">Yönetici Paneli</NavbarButton> */}
+            <NavbarButton variant="primary">Yönetici Paneli</NavbarButton>
           </div>
         </NavBody>
 
@@ -78,14 +78,7 @@ export function NavbarDemo() {
                 variant="primary"
                 className="w-full"
               >
-                Login
-              </NavbarButton>
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Book a call
+                Yönetici Paneli
               </NavbarButton>
             </div>
           </MobileNavMenu>
@@ -111,7 +104,7 @@ export function WobbleCardDemo() {
         >
           <div className="max-w-xs">
             <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-              Arabalarımız
+              Araçlarımız
             </h2>
             <p className="mt-4 text-left  text-base/6 text-neutral-200">
               Kiralık araba seçeneklerimizi keşfedin. Özellikleri, fiyatlarını
@@ -127,12 +120,16 @@ export function WobbleCardDemo() {
             className="absolute -right-4 lg:-right-[10%] grayscale filter bottom-10 object-contain rounded-2xl"
           />
         </WobbleCard>
-        <WobbleCard containerClassName="col-span-1 min-h-[300px]">
+        <WobbleCard
+          containerClassName="col-span-1 min-h-[300px]"
+          href="/compare"
+        >
           <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-            Tarifelerimiz
+            Karşılaştır
           </h2>
           <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-            Sigorta seçenekleri, paketlerimiz ve daha fazlasını keşfedin.
+            Kararsız kaldığınız araçlar arasındaki farkları yan yana görmek
+            için.
           </p>
         </WobbleCard>
         <WobbleCard

@@ -223,7 +223,7 @@ export const Card = ({
                 className="sticky top-4 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-black dark:bg-white"
                 onClick={handleClose}
               >
-                <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
+                <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900 hover:cursor-pointer" />
               </button>
               <motion.p
                 layoutId={layout ? `category-${card.title}` : undefined}

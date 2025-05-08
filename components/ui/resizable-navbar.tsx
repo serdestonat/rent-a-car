@@ -10,6 +10,7 @@ import {
 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -232,8 +233,8 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
   return (
-    <a
-      href="#"
+    <Link
+      href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
       <Image
@@ -246,7 +247,7 @@ export const NavbarLogo = () => {
       <span className="font-medium text-xl text-black dark:text-white">
         Gaye Rent A Car
       </span>
-    </a>
+    </Link>
   );
 };
 
