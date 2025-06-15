@@ -123,7 +123,7 @@ const CarContent = ({
               setIsModalOpen(true);
             }}
             className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-xl 
-                      hover:from-blue-600 hover:to-blue-700 transition-all duration-300 font-semibold
+                      hover:from-blue-600 hover:to-blue-700 cursor-pointer transition-all duration-300 font-semibold
                       shadow-md hover:shadow-lg"
           >
             Karşılaştır

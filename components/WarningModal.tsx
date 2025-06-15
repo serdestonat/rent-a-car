@@ -62,7 +62,7 @@ export const WarningModal = ({
 
           <button
             onClick={onClose}
-            className="w-full px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200 font-medium"
+            className="w-full px-6 py-2 bg-blue-500 hover:bg-blue-600 cursor-pointer text-white rounded-lg transition-colors duration-200 font-medium"
           >
             Tamam
           </button>

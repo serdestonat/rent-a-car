@@ -157,7 +157,7 @@ export default function ComparePage() {
                 >
                   <button
                     onClick={() => removeCar(selectedCars[index])}
-                    className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md"
+                    className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md cursor-pointer"
                   >
                     ×
                   </button>
