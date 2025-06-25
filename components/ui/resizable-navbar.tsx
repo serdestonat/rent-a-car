@@ -245,7 +245,7 @@ export const NavbarLogo = () => {
         className="rounded"
       />
       <span className="font-medium text-xl text-black dark:text-white">
-        Gaye Rent A Car
+        Appa Rent A Car
       </span>
     </Link>
   );

@@ -5,6 +5,7 @@ import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import Image from "next/image";
 import { NavbarDemo } from "@/app/page";
 import { WarningModal } from "@/components/WarningModal";
+import { useVehicleStore } from "@/store/vehicleStore";
 
 // Common compare handler
 const handleCompare = (carTitle: string) => {
@@ -13,7 +14,7 @@ const handleCompare = (carTitle: string) => {
   if (!selected.includes(carTitle)) {
     if (selected.length >= 3) {
       return {
-        message: "Maksimum 3 araç karşılaştırabilirsiniz!",
+        message: "You can only compare 3 cars at a time!",
         type: "warning" as const,
       };
     }
@@ -23,13 +24,13 @@ const handleCompare = (carTitle: string) => {
       JSON.stringify([...selected, carTitle])
     );
     return {
-      message: `${carTitle} karşılaştırma listesine eklendi!`,
+      message: `${carTitle} added to the comparison list!`,
       type: "success" as const,
     };
   }
 
   return {
-    message: "Bu araç zaten karşılaştırma listesinde!",
+    message: "This car is already in the comparison list!",
     type: "warning" as const,
   };
 };
@@ -59,6 +60,7 @@ const CarContent = ({
     message: string;
     type: "success" | "warning";
   }>({ message: "", type: "warning" });
+
   return (
     <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300">
       <div className="flex flex-col md:flex-row gap-8">
@@ -76,7 +78,7 @@ const CarContent = ({
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <p className="font-semibold text-neutral-700 dark:text-neutral-200">
-                Yakıt Tipi
+                Fuel Type
               </p>
               <p className="text-neutral-600 dark:text-neutral-400">
                 {fuelType}
@@ -84,7 +86,7 @@ const CarContent = ({
             </div>
             <div className="space-y-2">
               <p className="font-semibold text-neutral-700 dark:text-neutral-200">
-                Yakıt Deposu
+                Fuel Capacity
               </p>
               <p className="text-neutral-600 dark:text-neutral-400">
                 {fuelCapacity}
@@ -92,7 +94,7 @@ const CarContent = ({
             </div>
             <div className="space-y-2">
               <p className="font-semibold text-neutral-700 dark:text-neutral-200">
-                Şanzıman
+                Transmission
               </p>
               <p className="text-neutral-600 dark:text-neutral-400">
                 {transmission}
@@ -100,7 +102,7 @@ const CarContent = ({
             </div>
             <div className="space-y-2">
               <p className="font-semibold text-neutral-700 dark:text-neutral-200">
-                Bagaj Hacmi
+                Trunk Capacity
               </p>
               <p className="text-neutral-600 dark:text-neutral-400">
                 {trunkCapacity}
@@ -108,7 +110,7 @@ const CarContent = ({
             </div>
             <div className="space-y-2">
               <p className="font-semibold text-neutral-700 dark:text-neutral-200">
-                Motor Hacmi
+                Engine Displacement
               </p>
               <p className="text-neutral-600 dark:text-neutral-400">
                 {engineDisplacement}
@@ -126,7 +128,7 @@ const CarContent = ({
                       hover:from-blue-600 hover:to-blue-700 cursor-pointer transition-all duration-300 font-semibold
                       shadow-md hover:shadow-lg"
           >
-            Karşılaştır
+            Add To The Comparison List
           </button>
 
           <WarningModal
@@ -153,167 +155,30 @@ const CarContent = ({
   );
 };
 
-// Car content components
-const EgeaContent = () => (
-  <CarContent
-    title="Egea"
-    model="Fiat Egea 1.4 Fire"
-    fuelType="Benzin"
-    fuelCapacity="50 L"
-    trunkCapacity="520 L"
-    engineDisplacement="1368 cc"
-    transmission="Manuel (6 İleri)"
-    image="/images/cars/egea.png"
-  />
-);
-
-const I20Content = () => (
-  <CarContent
-    title="i20"
-    model="Hyundai i20 1.4 MPI"
-    fuelType="Benzin"
-    fuelCapacity="40 L"
-    trunkCapacity="352 L"
-    engineDisplacement="1368 cc"
-    transmission="Manuel / Otomatik"
-    image="/images/cars/i20.jpg"
-  />
-);
-
-const FluenceContent = () => (
-  <CarContent
-    title="Fluence"
-    model="Renault Fluence 1.5 dCi"
-    fuelType="Dizel"
-    fuelCapacity="60 L"
-    trunkCapacity="530 L"
-    engineDisplacement="1461cc"
-    transmission="Manuel / Otomatik"
-    image="/images/cars/fluence.jpg"
-  />
-);
-
-const Three01Content = () => (
-  <CarContent
-    title="301"
-    model="Peugeot 301 1.5 BlueHDi"
-    fuelType="Dizel"
-    fuelCapacity="50 L"
-    trunkCapacity="506 L"
-    engineDisplacement="1499 cc"
-    transmission="Manuel (6 İleri)"
-    image="/images/cars/301.png"
-  />
-);
-
-const FocusContent = () => (
-  <CarContent
-    title="Focus"
-    model="Ford Focus 1.5 EcoBlue"
-    fuelType="Dizel"
-    fuelCapacity="47 L"
-    trunkCapacity="511 L"
-    engineDisplacement="1499 cc"
-    transmission="Manuel (8 İleri)"
-    image="/images/cars/focus.png"
-  />
-);
-
-const ClioSportTourerContent = () => (
-  <CarContent
-    title="Clio Sport Tourer"
-    model="Renault Clio Sport Tourer"
-    fuelType="Benzin / Dizel"
-    fuelCapacity="45-50 L"
-    trunkCapacity="443 L"
-    engineDisplacement="999-1461 cc"
-    transmission="Manuel / Otomatik"
-    image="/images/cars/sportClio1.jpg"
-  />
-);
-
-const SymbolContent = () => (
-  <CarContent
-    title="Symbol"
-    model="Renault Symbol 1.0 SCe"
-    fuelType="Benzin"
-    fuelCapacity="50 L"
-    trunkCapacity="510L"
-    engineDisplacement="999 cc"
-    transmission="Manuel (5 İleri)"
-    image="/images/cars/symbol.png"
-  />
-);
-
-const LineaContent = () => (
-  <CarContent
-    title="Linea"
-    model="Fiat Linea 1.3 Multijet"
-    fuelType="Dizel"
-    fuelCapacity="45 L"
-    trunkCapacity="500 L"
-    engineDisplacement="1248 cc"
-    transmission="Manuel (5 İleri)"
-    image="/images/cars/linea.jpg"
-  />
-);
-
-// Data array
-const data = [
-  {
-    category: "Fiat",
-    title: "Egea",
-    src: "/images/cars/egea.png",
-    content: <EgeaContent />,
-  },
-  {
-    category: "Hyundai",
-    title: "i20",
-    src: "/images/cars/i20.jpg",
-    content: <I20Content />,
-  },
-  {
-    category: "Renault",
-    title: "Fluence",
-    src: "/images/cars/fluence.jpg",
-    content: <FluenceContent />,
-  },
-  {
-    category: "Peugeot",
-    title: "301",
-    src: "/images/cars/301.png",
-    content: <Three01Content />,
-  },
-  {
-    category: "Ford",
-    title: "Focus",
-    src: "/images/cars/focus.png",
-    content: <FocusContent />,
-  },
-  {
-    category: "Renault",
-    title: "Clio Sport Tourer",
-    src: "/images/cars/sportClio1.jpg",
-    content: <ClioSportTourerContent />,
-  },
-  {
-    category: "Renault",
-    title: "Symbol",
-    src: "/images/cars/symbol.png",
-    content: <SymbolContent />,
-  },
-  {
-    category: "Fiat",
-    title: "Linea",
-    src: "/images/cars/linea.jpg",
-    content: <LineaContent />,
-  },
-];
-
 // Main components
 export function AppleCardsCarouselDemo() {
+  const { vehicles } = useVehicleStore();
+
+  const data = vehicles.map((vehicle) => ({
+    category: vehicle.category,
+    title: vehicle.title,
+    src: vehicle.image,
+    content: (
+      <CarContent
+        title={vehicle.title}
+        model={vehicle.model}
+        fuelType={vehicle.fuelType}
+        fuelCapacity={vehicle.fuelCapacity}
+        trunkCapacity={vehicle.trunkCapacity}
+        engineDisplacement={vehicle.engineDisplacement}
+        transmission={vehicle.transmission}
+        image={vehicle.image}
+      />
+    ),
+  }));
+
   const cards = data.map((card, index) => (
-    <Card key={card.src} card={card} index={index} />
+    <Card key={`${card.title}-${index}`} card={card} index={index} />
   ));
 
   return (
@@ -321,7 +186,7 @@ export function AppleCardsCarouselDemo() {
       <NavbarDemo />
       <div className="w-full h-full py-20">
         <h2 className="max-w-7xl pl-4 mx-auto text-xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
-          Arabalarımıza Göz Atın
+          Check Out Our Cars
         </h2>
         <Carousel items={cards} />
       </div>

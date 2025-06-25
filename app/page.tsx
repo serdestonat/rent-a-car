@@ -20,15 +20,15 @@ import { useState } from "react";
 export function NavbarDemo() {
   const navItems = [
     {
-      name: "Araçlarımız",
+      name: "Cars",
       link: "/cars",
     },
     {
-      name: "Karşılaştır",
+      name: "Comparison List",
       link: "/compare",
     },
     {
-      name: "Bize Ulaşın",
+      name: "Contact Us",
       link: "/about",
     },
   ];
@@ -44,7 +44,9 @@ export function NavbarDemo() {
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
             {/* <NavbarButton variant="secondary">Yönetici Paneli</NavbarButton> */}
-            <NavbarButton variant="primary">Yönetici Paneli</NavbarButton>
+            <NavbarButton variant="primary" href="/admin/login">
+              Admin Dashboard
+            </NavbarButton>
           </div>
         </NavBody>
 
@@ -77,8 +79,9 @@ export function NavbarDemo() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
                 className="w-full"
+                href="/admin/login"
               >
-                Yönetici Paneli
+                Admin Dashboard
               </NavbarButton>
             </div>
           </MobileNavMenu>
@@ -94,7 +97,7 @@ export function WobbleCardDemo() {
     <>
       <NavbarDemo />
       <h1 className="text-5xl md:text-6xl font-bold text-center pt-8 pb-8 md:pt-12">
-        Gaye Rent A Car
+        Appa Rent A Car
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full mb-10">
         <WobbleCard
@@ -104,11 +107,10 @@ export function WobbleCardDemo() {
         >
           <div className="max-w-xs">
             <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-              Araçlarımız
+              Cars
             </h2>
             <p className="mt-4 text-left  text-base/6 text-neutral-200">
-              Kiralık araba seçeneklerimizi keşfedin. Özellikleri, fiyatlarını
-              ve daha fazlasını görün.
+              Explore our rental car options. See features, prices and more.
             </p>
           </div>
 
@@ -125,11 +127,11 @@ export function WobbleCardDemo() {
           href="/compare"
         >
           <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-            Karşılaştır
+            Comparison List
           </h2>
           <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-            Kararsız kaldığınız araçlar arasındaki farkları yan yana görmek
-            için.
+            To see the differences between the vehicles you are undecided about,
+            side by side.
           </p>
         </WobbleCard>
         <WobbleCard
@@ -138,11 +140,11 @@ export function WobbleCardDemo() {
         >
           <div className="max-w-sm">
             <h2 className="max-w-sm md:max-w-lg text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-              Bize Ulaşın
+              Contact Us
             </h2>
             <p className="mt-4 max-w-[26rem] text-left text-base/6 text-neutral-200">
-              Bizi aramak veya mesaj göndermek için ya da bizi ziyaret etmek
-              için konumumuzu öğrenmek için tıklayın.
+              Click to call us, send us a message or to find out our location to
+              visit us.
             </p>
           </div>
           <Image

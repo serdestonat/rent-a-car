@@ -18,74 +18,74 @@ type CarSpecs = {
 const carSpecs: Record<string, CarSpecs> = {
   Egea: {
     model: "Fiat Egea 1.4 Fire",
-    fuelType: "Benzin",
+    fuelType: "Gasoline",
     fuelCapacity: "50 L",
     trunkCapacity: "520 L",
     engineDisplacement: "1368 cc",
-    transmission: "Manuel (6 İleri)",
+    transmission: "Manual (6 Speed)",
     image: "/images/cars/egea.png",
   },
   i20: {
     model: "Hyundai i20 1.4 MPI",
-    fuelType: "Benzin",
+    fuelType: "Gasoline",
     fuelCapacity: "40 L",
     trunkCapacity: "352 L",
     engineDisplacement: "1368 cc",
-    transmission: "Manuel / Otomatik",
+    transmission: "Manual / Automatic",
     image: "/images/cars/i20.jpg",
   },
   Fluence: {
     model: "Renault Fluence 1.5 dCi",
-    fuelType: "Dizel",
+    fuelType: "Diesel",
     fuelCapacity: "60 L",
     trunkCapacity: "530 L",
     engineDisplacement: "1461cc",
-    transmission: "Manuel / Otomatik",
+    transmission: "Manual / Automatic",
     image: "/images/cars/fluence.jpg",
   },
   "301": {
     model: "Peugeot 301 1.5 BlueHDi",
-    fuelType: "Dizel",
+    fuelType: "Diesel",
     fuelCapacity: "50 L",
     trunkCapacity: "506 L",
     engineDisplacement: "1499 cc",
-    transmission: "Manuel (6 İleri)",
+    transmission: "Manual (6 Speed)",
     image: "/images/cars/301.png",
   },
   Focus: {
     model: "Ford Focus 1.5 EcoBlue",
-    fuelType: "Dizel",
+    fuelType: "Diesel",
     fuelCapacity: "47 L",
     trunkCapacity: "511 L",
     engineDisplacement: "1499 cc",
-    transmission: "Manuel (8 İleri)",
+    transmission: "Manual (8 Speed)",
     image: "/images/cars/focus.png",
   },
   "Clio Sport Tourer": {
     model: "Renault Clio Sport Tourer",
-    fuelType: "Benzin / Dizel",
+    fuelType: "Gasoline / Diesel",
     fuelCapacity: "45-50 L",
     trunkCapacity: "443 L",
     engineDisplacement: "999-1461 cc",
-    transmission: "Manuel / Otomatik",
+    transmission: "Manual / Automatic",
     image: "/images/cars/sportClio1.jpg",
   },
   Symbol: {
     model: "Renault Symbol 1.0 SCe",
-    fuelType: "Benzin",
+    fuelType: "Gasoline",
     fuelCapacity: "50 L",
     trunkCapacity: "510L",
     engineDisplacement: "999 cc",
-    transmission: "Manuel (5 İleri)",
+    transmission: "Manual (5 Speed)",
     image: "/images/cars/symbol.png",
   },
   Linea: {
     model: "Fiat Linea 1.3 Multijet",
-    fuelType: "Dizel",
+    fuelType: "Diesel",
     fuelCapacity: "45 L",
     trunkCapacity: "500 L",
     engineDisplacement: "1248 cc",
-    transmission: "Manuel (5 İleri)",
+    transmission: "Manual (5 Speed)",
     image: "/images/cars/linea.jpg",
   },
 };
@@ -98,7 +98,9 @@ export default function ComparePage() {
     const savedCars = JSON.parse(localStorage.getItem("selectedCars") || "[]");
     setSelectedCars(savedCars);
     setSpecs(
-      savedCars.map((car: string) => carSpecs[car as keyof typeof carSpecs])
+      savedCars
+        .map((car: string) => carSpecs[car as keyof typeof carSpecs])
+        .filter(Boolean) // undefined öğeleri kaldırır
     );
   }, []);
 
@@ -116,7 +118,7 @@ export default function ComparePage() {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-neutral-800 dark:text-white">
             <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Araç Karşılaştırma
+              Car Comparison
             </span>
           </h1>
 
@@ -138,14 +140,14 @@ export default function ComparePage() {
                 </svg>
               </div>
               <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8">
-                Karşılaştırma listeniz boş. Hemen araç eklemek için aşağıdaki
-                butonu kullanın.
+                Your comparison list is empty. Use the button below to add a
+                vehicle now.
               </p>
               <Link
                 href="/cars"
                 className="inline-flex items-center px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl transition-colors duration-200 font-medium"
               >
-                Araçları Görüntüle
+                View Cars
               </Link>
             </div>
           ) : (
@@ -191,7 +193,7 @@ export default function ComparePage() {
                         </div>
                         <div className="space-y-1">
                           <p className="text-neutral-500 dark:text-neutral-400 font-medium">
-                            Yakıt Tipi
+                            Fuel Type
                           </p>
                           <p className="text-neutral-700 dark:text-neutral-300">
                             {car.fuelType}
@@ -199,7 +201,7 @@ export default function ComparePage() {
                         </div>
                         <div className="space-y-1">
                           <p className="text-neutral-500 dark:text-neutral-400 font-medium">
-                            Yakıt Deposu
+                            Fuel Capacity
                           </p>
                           <p className="text-neutral-700 dark:text-neutral-300">
                             {car.fuelCapacity}
@@ -207,7 +209,7 @@ export default function ComparePage() {
                         </div>
                         <div className="space-y-1">
                           <p className="text-neutral-500 dark:text-neutral-400 font-medium">
-                            Bagaj
+                            Trunk Capacity
                           </p>
                           <p className="text-neutral-700 dark:text-neutral-300">
                             {car.trunkCapacity}
@@ -215,7 +217,7 @@ export default function ComparePage() {
                         </div>
                         <div className="space-y-1">
                           <p className="text-neutral-500 dark:text-neutral-400 font-medium">
-                            Motor Hacmi
+                            Engine Displacement
                           </p>
                           <p className="text-neutral-700 dark:text-neutral-300">
                             {car.engineDisplacement}
@@ -223,7 +225,7 @@ export default function ComparePage() {
                         </div>
                         <div className="space-y-1">
                           <p className="text-neutral-500 dark:text-neutral-400 font-medium">
-                            Şanzıman
+                            Transmission
                           </p>
                           <p className="text-neutral-700 dark:text-neutral-300">
                             {car.transmission}

@@ -11,14 +11,22 @@
   "dependencies": {
     "@fullcalendar/react": "^6.1.17",
     "@tabler/icons-react": "^3.31.0",
+    "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
+    "formidable": "^3.5.4",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.15.2",
     "motion": "^12.9.2",
     "next": "15.3.1",
     "next-auth": "^4.24.11",
     "next-intl": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.2.0"
+    "tailwind-merge": "^3.2.0",
+    "uuid": "^11.1.0",
+    "zustand": "^5.0.5"
   },
   "overrides": {
     "motion": {
@@ -29,6 +37,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^5.0.2",
+    "@types/formidable": "^3.4.5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
