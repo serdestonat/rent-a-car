@@ -38,7 +38,7 @@ const Login = () => {
             {/* Başlık alanı beyaz */}
             <div className="flex items-center justify-center mb-4"></div>
             <h1 className="text-2xl font-bold text-gray-800 text-center">
-              Yönetici Girişi
+              Admin Login
             </h1>
           </div>
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -75,11 +75,11 @@ const Login = () => {
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <label className="block text-sm font-medium text-gray-700">
-                  Şifre
+                  Password
                 </label>
                 <Link href="/admin/forgot-password">
                   <span className="text-xs text-blue-600 hover:text-blue-700 transition cursor-pointer">
-                    Şifremi Unuttum?
+                    Forgot Your Password?
                   </span>
                 </Link>
               </div>
@@ -102,7 +102,7 @@ const Login = () => {
                 </div>
                 <input
                   type="password"
-                  placeholder="************"
+                  placeholder="*******"
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition placeholder-gray-500"
                 />
@@ -111,24 +111,17 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md cursor-pointer"
             >
-              Giriş Yap
+              Log In
             </button>
-
-            <div className="flex items-center my-4">
-              <div className="flex-grow border-t border-gray-300"></div>
-              <span className="mx-4 text-sm text-gray-600">veya</span>{" "}
-              {/* Ara metin koyu gri */}
-              <div className="flex-grow border-t border-gray-300"></div>
-            </div>
           </form>
           <div className="px-6 py-4 bg-white text-center border-t border-gray-200">
             <p className="text-sm text-gray-700">
-              Hesabınız yok mu?{" "}
+              Don&apos;t have an account ?{" "}
               <Link href="/admin/register">
                 <span className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer transition">
-                  Hesap Oluşturun
+                  Register
                 </span>
               </Link>
             </p>

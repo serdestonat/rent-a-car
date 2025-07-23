@@ -1,42 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
+export default function VerifyResetCode() {
+  const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!email) return;
 
+    setIsLoading(true);
     try {
-      const response = await fetch("/api/forgot-password", {
+      const response = await fetch("/api/verify-reset-code", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, code }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        toast.success("Reset code is sent to your e-mail.");
-        // Yönlendirme ekliyoruz
-        router.push(
-          `/admin/verify-reset-code?email=${encodeURIComponent(email)}`
-        );
+        toast.success("Code Verified");
+        router.push(`/admin/reset-password?email=${encodeURIComponent(email)}`);
       } else {
-        toast.error(data.error || "An error occured.");
+        toast.error(data.error || "Invalid Code");
       }
     } catch (error) {
-      toast.error("Could not connect to server.");
-      console.error("Forgot password error:", error);
+      console.log(error);
+      toast.error("An error occured.");
     } finally {
       setIsLoading(false);
     }
@@ -64,31 +63,37 @@ export default function ForgotPassword() {
               </svg>
             </div>
             <h1 className="text-2xl font-bold text-gray-800 text-center">
-              Forgot Password
+              Verify Code
             </h1>
           </div>
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div className="space-y-3">
               <label className="block text-sm font-medium text-gray-700">
-                E-Mail
+                6 Digit Code
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
-                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
                   </svg>
                 </div>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="example@email.com"
+                  type="text"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  maxLength={6}
+                  placeholder="123456"
                   className="w-full pl-10 px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition placeholder-gray-500"
                   required
                 />
@@ -122,39 +127,13 @@ export default function ForgotPassword() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Sending...
+                  Verifying...
                 </>
               ) : (
-                <>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  Send Code
-                </>
+                "Verify Code"
               )}
             </button>
           </form>
-          <div className="px-6 py-4 bg-white text-center border-t border-gray-200">
-            <p className="text-sm text-gray-700">
-              Remember your password?{" "}
-              <Link href="/admin/login">
-                <span className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer transition">
-                  Login
-                </span>
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>

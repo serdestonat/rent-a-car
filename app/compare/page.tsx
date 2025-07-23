@@ -4,111 +4,44 @@ import React, { useEffect, useState } from "react";
 import { NavbarDemo } from "@/app/page";
 import Image from "next/image";
 import Link from "next/link";
+import { useVehicleStore } from "@/store/vehicleStore"; // Import useVehicleStore
 
-type CarSpecs = {
-  model: string;
-  fuelType: string;
-  fuelCapacity: string;
-  trunkCapacity: string;
-  engineDisplacement: string;
-  transmission: string;
-  image: string;
-};
-
-const carSpecs: Record<string, CarSpecs> = {
-  Egea: {
-    model: "Fiat Egea 1.4 Fire",
-    fuelType: "Gasoline",
-    fuelCapacity: "50 L",
-    trunkCapacity: "520 L",
-    engineDisplacement: "1368 cc",
-    transmission: "Manual (6 Speed)",
-    image: "/images/cars/egea.png",
-  },
-  i20: {
-    model: "Hyundai i20 1.4 MPI",
-    fuelType: "Gasoline",
-    fuelCapacity: "40 L",
-    trunkCapacity: "352 L",
-    engineDisplacement: "1368 cc",
-    transmission: "Manual / Automatic",
-    image: "/images/cars/i20.jpg",
-  },
-  Fluence: {
-    model: "Renault Fluence 1.5 dCi",
-    fuelType: "Diesel",
-    fuelCapacity: "60 L",
-    trunkCapacity: "530 L",
-    engineDisplacement: "1461cc",
-    transmission: "Manual / Automatic",
-    image: "/images/cars/fluence.jpg",
-  },
-  "301": {
-    model: "Peugeot 301 1.5 BlueHDi",
-    fuelType: "Diesel",
-    fuelCapacity: "50 L",
-    trunkCapacity: "506 L",
-    engineDisplacement: "1499 cc",
-    transmission: "Manual (6 Speed)",
-    image: "/images/cars/301.png",
-  },
-  Focus: {
-    model: "Ford Focus 1.5 EcoBlue",
-    fuelType: "Diesel",
-    fuelCapacity: "47 L",
-    trunkCapacity: "511 L",
-    engineDisplacement: "1499 cc",
-    transmission: "Manual (8 Speed)",
-    image: "/images/cars/focus.png",
-  },
-  "Clio Sport Tourer": {
-    model: "Renault Clio Sport Tourer",
-    fuelType: "Gasoline / Diesel",
-    fuelCapacity: "45-50 L",
-    trunkCapacity: "443 L",
-    engineDisplacement: "999-1461 cc",
-    transmission: "Manual / Automatic",
-    image: "/images/cars/sportClio1.jpg",
-  },
-  Symbol: {
-    model: "Renault Symbol 1.0 SCe",
-    fuelType: "Gasoline",
-    fuelCapacity: "50 L",
-    trunkCapacity: "510L",
-    engineDisplacement: "999 cc",
-    transmission: "Manual (5 Speed)",
-    image: "/images/cars/symbol.png",
-  },
-  Linea: {
-    model: "Fiat Linea 1.3 Multijet",
-    fuelType: "Diesel",
-    fuelCapacity: "45 L",
-    trunkCapacity: "500 L",
-    engineDisplacement: "1248 cc",
-    transmission: "Manual (5 Speed)",
-    image: "/images/cars/linea.jpg",
-  },
-};
+// We'll use the Vehicle type directly from the store
+import type Vehicle from "@/store/vehicleStore";
 
 export default function ComparePage() {
-  const [selectedCars, setSelectedCars] = useState<string[]>([]);
-  const [specs, setSpecs] = useState<CarSpecs[]>([]);
+  const { vehicles } = useVehicleStore(); // Get all vehicles from the store
+  const [selectedCarTitles, setSelectedCarTitles] = useState<string[]>([]);
+  const [comparisonVehicles, setComparisonVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
-    const savedCars = JSON.parse(localStorage.getItem("selectedCars") || "[]");
-    setSelectedCars(savedCars);
-    setSpecs(
-      savedCars
-        .map((car: string) => carSpecs[car as keyof typeof carSpecs])
-        .filter(Boolean) // undefined öğeleri kaldırır
+    // Load selected car titles from localStorage
+    const savedTitles = JSON.parse(
+      localStorage.getItem("selectedCars") || "[]"
     );
-  }, []);
+    setSelectedCarTitles(savedTitles);
 
-  const removeCar = (carTitle: string) => {
-    const updated = selectedCars.filter((c) => c !== carTitle);
-    setSelectedCars(updated);
-    localStorage.setItem("selectedCars", JSON.stringify(updated));
-    setSpecs(updated.map((c) => carSpecs[c as keyof typeof carSpecs]));
+    // Filter vehicles from the store based on the saved titles
+    // Ensure that 'title' is unique enough to identify a car for comparison
+    const currentComparisonVehicles = vehicles.filter((vehicle) =>
+      savedTitles.includes(vehicle.title)
+    );
+    setComparisonVehicles(currentComparisonVehicles);
+  }, [vehicles]); // Re-run effect if the vehicles in the store change
+
+  const removeCar = (carTitleToRemove: string) => {
+    // Remove the car from the selected titles in localStorage
+    const updatedSelectedTitles = selectedCarTitles.filter(
+      (title) => title !== carTitleToRemove
+    );
+    setSelectedCarTitles(updatedSelectedTitles);
+    localStorage.setItem("selectedCars", JSON.stringify(updatedSelectedTitles));
+
+    // Update the displayed comparison vehicles immediately
+    const updatedComparisonVehicles = vehicles.filter((vehicle) =>
+      updatedSelectedTitles.includes(vehicle.title)
+    );
+    setComparisonVehicles(updatedComparisonVehicles);
   };
 
   return (
@@ -122,7 +55,7 @@ export default function ComparePage() {
             </span>
           </h1>
 
-          {specs.length === 0 ? (
+          {comparisonVehicles.length === 0 ? (
             <div className="text-center max-w-2xl mx-auto mt-16">
               <div className="mb-8 mx-auto w-24 h-24 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
                 <svg
@@ -152,13 +85,13 @@ export default function ComparePage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {specs.map((car, index) => (
+              {comparisonVehicles.map((car, index) => (
                 <div
-                  key={index}
+                  key={car.id || index} // Use car.id for a more robust key
                   className="relative group bg-white dark:bg-neutral-800 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-neutral-100 dark:border-neutral-700"
                 >
                   <button
-                    onClick={() => removeCar(selectedCars[index])}
+                    onClick={() => removeCar(car.title)} // Pass the actual title from the car object
                     className="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors shadow-md cursor-pointer"
                   >
                     ×
@@ -167,7 +100,7 @@ export default function ComparePage() {
                   <div className="space-y-5">
                     <div className="flex items-center justify-between">
                       <h2 className="text-xl font-bold text-neutral-800 dark:text-white truncate">
-                        {selectedCars[index]}
+                        {car.title} {/* Display the car's title */}
                       </h2>
                     </div>
 

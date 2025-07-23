@@ -2,6 +2,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+export interface RentalPeriod {
+  startDate: string; // ISO format: "2023-10-15"
+  endDate: string;
+  customerName: string;
+  licenseNumber: string;
+  idCardNumber: string;
+}
+
 type VehicleStatus = "Available" | "Rented" | "In Maintenance";
 
 // Araç tipini tanımlayın
@@ -19,6 +27,7 @@ type Vehicle = {
   plate?: string;
   year?: number;
   status?: VehicleStatus;
+  rentalPeriod?: RentalPeriod;
 };
 
 type VehicleStore = {
@@ -175,6 +184,23 @@ export const useVehicleStore = create<VehicleStore>()(
       deleteVehicle: (id) =>
         set((state) => ({
           vehicles: state.vehicles.filter((v) => v.id !== id),
+        })),
+
+      rentVehicle: (id: string, rentalData: RentalPeriod) =>
+        set((state) => ({
+          vehicles: state.vehicles.map((v) =>
+            v.id === id
+              ? { ...v, status: "Rented", rentalPeriod: rentalData }
+              : v
+          ),
+        })),
+      returnVehicle: (id: string) =>
+        set((state) => ({
+          vehicles: state.vehicles.map((v) =>
+            v.id === id
+              ? { ...v, status: "Available", rentalPeriod: undefined }
+              : v
+          ),
         })),
     }),
     {

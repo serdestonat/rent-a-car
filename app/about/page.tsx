@@ -8,12 +8,15 @@ export default function About() {
       <div className="flex flex-col md:flex-row min-h-screen w-full p-4 md:p-8">
         {/* Sol taraf içeriği */}
         <div className="w-full md:w-1/2 p-4 md:p-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">Hakkımızda</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">
+            {" "}
+            Our Contact Information
+          </h1>
           <p className="text-base md:text-lg mb-2">
-            Telefon Numaramız: +90 533 333 33 33
+            Call Us : +90 533 333 33 33
           </p>
           <p className="text-base md:text-lg">
-            E-posta Adresimiz: gaye.rentacar@gmail.com
+            E-Mail Us : gaye.rentacar@gmail.com
           </p>
         </div>
 

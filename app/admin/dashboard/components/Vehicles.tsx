@@ -2,6 +2,8 @@
 import { useState, useRef, ChangeEvent } from "react";
 import { useVehicleStore } from "@/store/vehicleStore";
 import Vehicle from "@/store/vehicleStore";
+import Image from "next/image"; // Image component'i için import
+import VehicleCalendar from "@/components/VehicleCalendar";
 
 export default function Vehicles() {
   const { vehicles, addVehicle, updateVehicle, deleteVehicle } =
@@ -161,44 +163,58 @@ export default function Vehicles() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Vehicle Management</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      {" "}
+      {/* Genel padding eklendi */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-0">
+          Vehicle Management
+        </h1>
         <button
           onClick={() => {
             setEditingVehicle(null);
             setIsModalOpen(true);
           }}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md w-full md:w-auto" // Buton responsive yapıldı
         >
           Add New Vehicle
         </button>
       </div>
-
       {/* Add/Edit Vehicle Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-neutral-800 rounded-lg p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          {" "}
+          {/* Modal için padding */}
+          <div className="bg-white dark:bg-neutral-800 rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            {" "}
+            {/* Max height ve scroll eklendi */}
             <h2 className="text-xl font-bold mb-4">
               {editingVehicle ? "Edit Vehicle" : "Add New Vehicle"}
             </h2>
             <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {" "}
+                {/* Grid responsive yapıldı */}
                 {/* Resim Yükleme Alanı */}
-                <div>
+                <div className="md:col-span-2">
+                  {" "}
+                  {/* Tam genişlik aldı */}
                   <label className="block text-sm font-medium mb-1">
                     Vehicle Image
                   </label>
                   <div className="flex items-center gap-4">
-                    <div className="relative w-20 h-20 rounded-md overflow-hidden bg-gray-100">
+                    <div className="relative w-20 h-20 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
+                      {" "}
+                      {/* flex-shrink-0 eklendi */}
                       {imagePreview ? (
-                        <img
+                        <Image
                           src={imagePreview}
                           alt="Preview"
-                          className="w-full h-full object-cover"
+                          layout="fill" // Resim boyutlandırması için
+                          objectFit="cover" // Resim boyutlandırması için
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm text-center">
                           No Image
                         </div>
                       )}
@@ -213,14 +229,14 @@ export default function Vehicles() {
                     />
                     <label
                       htmlFor="vehicleImage"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-800 rounded-md cursor-pointer transition-colors"
+                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 cursor-pointer transition-colors"
                     >
                       Choose Image
                     </label>
                   </div>
                 </div>
-
                 {/* Diğer form alanları */}
+                {/* Her input div'ine mb-3 yerine genel gap ile boşluk veriyoruz */}
                 <div>
                   <label className="block text-sm font-medium mb-1">
                     Title*
@@ -230,7 +246,7 @@ export default function Vehicles() {
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                     required
                   />
                 </div>
@@ -243,7 +259,7 @@ export default function Vehicles() {
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                     required
                   />
                 </div>
@@ -256,7 +272,7 @@ export default function Vehicles() {
                     name="model"
                     value={formData.model}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                     required
                   />
                 </div>
@@ -269,7 +285,55 @@ export default function Vehicles() {
                     name="fuelType"
                     value={formData.fuelType}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Fuel Capacity
+                  </label>
+                  <input
+                    type="text"
+                    name="fuelCapacity"
+                    value={formData.fuelCapacity}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Trunk Capacity
+                  </label>
+                  <input
+                    type="text"
+                    name="trunkCapacity"
+                    value={formData.trunkCapacity}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Engine Displacement
+                  </label>
+                  <input
+                    type="text"
+                    name="engineDisplacement"
+                    value={formData.engineDisplacement}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Transmission
+                  </label>
+                  <input
+                    type="text"
+                    name="transmission"
+                    value={formData.transmission}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -281,7 +345,7 @@ export default function Vehicles() {
                     name="plate"
                     value={formData.plate}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -291,10 +355,12 @@ export default function Vehicles() {
                     name="year"
                     value={formData.year || ""}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
-                <div>
+                <div className="md:col-span-2">
+                  {" "}
+                  {/* Tam genişlik aldı */}
                   <label className="block text-sm font-medium mb-1">
                     Status
                   </label>
@@ -302,7 +368,7 @@ export default function Vehicles() {
                     name="status"
                     value={formData.status}
                     onChange={handleInputChange}
-                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600"
+                    className="w-full p-2 border rounded dark:bg-neutral-700 dark:border-neutral-600 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="Available">Available</option>
                     <option value="Rented">Rented</option>
@@ -310,11 +376,13 @@ export default function Vehicles() {
                   </select>
                 </div>
               </div>
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-2 mt-4">
+                {" "}
+                {/* Butonlar arası boşluk ve üstten boşluk */}
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-4 py-2 bg-blue-600 rounded hover:bg-blue-800 cursor-pointer transition-colors"
+                  className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 cursor-pointer transition-colors" // Griye çevrildi
                 >
                   Cancel
                 </button>
@@ -329,8 +397,9 @@ export default function Vehicles() {
           </div>
         </div>
       )}
-
-      <div className="bg-white dark:bg-neutral-800 rounded-lg shadow overflow-hidden">
+      <div className="bg-white dark:bg-neutral-800 rounded-lg shadow overflow-x-auto">
+        {" "}
+        {/* Küçük ekranlarda yatay kaydırma */}
         <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
           <thead className="bg-gray-50 dark:bg-neutral-700">
             <tr>
@@ -352,45 +421,61 @@ export default function Vehicles() {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-neutral-800 divide-y divide-gray-200 dark:divide-neutral-700">
-            {vehicles.map((vehicle) => (
-              <tr key={vehicle.id}>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.model}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {vehicle.category}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.plate}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      vehicle.status === "Available"
-                        ? "bg-green-100 text-green-800"
-                        : vehicle.status === "Rented"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {vehicle.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <button
-                    onClick={() => handleEdit(vehicle)}
-                    className="text-blue-600 hover:text-blue-900 mr-3"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(vehicle.id)}
-                    className="text-red-600 hover:text-red-900"
-                  >
-                    Delete
-                  </button>
+            {vehicles.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="px-6 py-4 whitespace-nowrap text-center text-gray-500 dark:text-gray-400"
+                >
+                  No vehicles found. Add a new one!
                 </td>
               </tr>
-            ))}
+            ) : (
+              vehicles.map((vehicle) => (
+                <tr key={vehicle.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900 dark:text-neutral-100">
+                    {vehicle.model}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900 dark:text-neutral-100">
+                    {vehicle.category}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900 dark:text-neutral-100">
+                    {vehicle.plate}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        vehicle.status === "Available"
+                          ? "bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100"
+                          : vehicle.status === "Rented"
+                          ? "bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-blue-100"
+                          : "bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100"
+                      }`}
+                    >
+                      {vehicle.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <button
+                      onClick={() => handleEdit(vehicle)}
+                      className="text-blue-600 hover:text-blue-900 mr-3 font-medium"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(vehicle.id)}
+                      className="text-red-600 hover:text-red-900 font-medium"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
+      <VehicleCalendar />
     </div>
   );
 }

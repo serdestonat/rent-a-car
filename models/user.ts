@@ -4,6 +4,8 @@ interface User {
   name: string;
   email: string;
   password?: string;
+  resetCode?: string;
+  resetCodeExpires?: Date;
 }
 
 const UserSchema = new Schema<User>({
@@ -18,6 +20,14 @@ const UserSchema = new Schema<User>({
   },
   password: {
     type: String,
+  },
+  resetCode: {
+    type: String,
+    default: null,
+  },
+  resetCodeExpires: {
+    type: Date,
+    default: null,
   },
 });
 

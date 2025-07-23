@@ -74,7 +74,7 @@ const Register = () => {
       // Başarılı durumda modalı göster
       setIsModalOpen(true);
       setModalType("success");
-      setModalMessage("Hesabınız başarıyla oluşturuldu!");
+      setModalMessage("Account created successfully!");
       // router.push("/admin/login"); // Modal kapandığında yönlendirme yapılacak
     } catch (error: unknown) {
       console.error("Kayıt hatası:", error);
@@ -91,12 +91,12 @@ const Register = () => {
         ) {
           setModalMessage((error.response.data as { message: string }).message);
         } else {
-          setModalMessage("Kayıt sırasında bir sunucu hatası oluştu.");
+          setModalMessage("A server error occured during registration.");
         }
       } else if (error instanceof Error) {
         setModalMessage(error.message);
       } else {
-        setModalMessage("Kayıt sırasında beklenmeyen bir hata oluştu.");
+        setModalMessage("An unexpected error occured during registration.");
       }
     }
   };
@@ -108,14 +108,14 @@ const Register = () => {
           <div className="bg-white p-6 border-b border-gray-200">
             <div className="flex items-center justify-center mb-4"></div>
             <h1 className="text-2xl font-bold text-gray-800 text-center">
-              Hesap Oluştur
+              Create Account
             </h1>
           </div>
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             {/* Adınız alanı */}
             <div className="space-y-3">
               <label className="block text-sm font-medium text-gray-700">
-                Adınız
+                Full Name
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
@@ -136,7 +136,7 @@ const Register = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="Ali Yıldız"
+                  placeholder="John Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full pl-10 px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition placeholder-gray-500"
@@ -179,7 +179,7 @@ const Register = () => {
             {/* Şifre alanı */}
             <div className="space-y-3">
               <label className="block text-sm font-medium text-gray-700">
-                Şifre
+                Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
@@ -200,7 +200,7 @@ const Register = () => {
                 </div>
                 <input
                   type="password"
-                  placeholder="************"
+                  placeholder="*******"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -224,7 +224,7 @@ const Register = () => {
             {/* Şifre Doğrulama alanı */}
             <div className="space-y-3">
               <label className="block text-sm font-medium text-gray-700">
-                Şifre Doğrulama
+                Confirm Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
@@ -245,7 +245,7 @@ const Register = () => {
                 </div>
                 <input
                   type="password"
-                  placeholder="************"
+                  placeholder="*******"
                   value={confirmPassword}
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);
@@ -267,17 +267,17 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md cursor-pointer"
             >
-              Kayıt Ol
+              Register
             </button>
           </form>
           <div className="px-6 py-4 bg-white text-center border-t border-gray-200">
             <p className="text-sm text-gray-700">
-              Hesabınız var mı?{" "}
+              Have an account?{" "}
               <Link href="/admin/login">
                 <span className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer transition">
-                  Giriş Yap
+                  Login
                 </span>
               </Link>
             </p>
